@@ -41,41 +41,66 @@ const somador_1 = __importDefault(require("./somador"));
 const subtrador_1 = __importDefault(require("./subtrador"));
 const divisor_1 = __importDefault(require("./divisor"));
 const multiplicador_1 = __importDefault(require("./multiplicador"));
+const bhaskara_1 = __importDefault(require("./bhaskara"));
 let iniciar = () => {
     let leitor = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
-    leitor.question("Quais são os números e a operação desejada? ", (valor) => {
-        let instrucao = valor.split(" ");
-        let numero1 = Number(instrucao[0]);
-        let numero2 = Number(instrucao[1]);
-        let operacao = instrucao[2];
-        if (instrucao.length === 13) {
-            operacao = instrucao[0];
-        }
-        console.log(`Esta foi sua Operação: ${operacao} \n Este foi seu numero 1: ${numero1} \n Este foi seu numero 2: ${numero2} \n`);
+    leitor.question("Quais são os números e a operação desejada?\n", (valor) => {
+        var _a;
+        let instrucao = valor.trim().split(" ");
+        let numeros = instrucao.slice(0, -1).map(Number);
+        let operacao = (_a = instrucao[instrucao.length - 1]) === null || _a === void 0 ? void 0 : _a.toLowerCase().replace("ç", "c").replace("ã", "a");
+        console.log(`Operação: ${operacao}\nNúmeros: ${numeros.join(", ")}\n`);
         switch (operacao) {
-            case "Somar":
+            case "soma":
+                if (numeros.length < 2)
+                    return console.log("Informe pelo menos dois números para soma.");
                 let somador = new somador_1.default();
-                console.log(` O resultado da operação é: ${somador.calcular(numero1, numero2)}`);
+                console.log(`Resultado: ${somador.calcular(numeros[0], numeros[1])}`);
                 break;
-            case "Subtração":
+            case "subtracao":
+                if (numeros.length < 2)
+                    return console.log("Informe pelo menos dois números para subtração.");
                 let subtrador = new subtrador_1.default();
-                console.log(` O resultado da operação é: ${subtrador.calcular(numero1, numero2)}`);
+                console.log(`Resultado: ${subtrador.calcular(numeros[0], numeros[1])}`);
                 break;
-            case "Multiplicação":
+            case "multiplicacao":
+                if (numeros.length < 2)
+                    return console.log("Informe pelo menos dois números para multiplicação.");
                 let multiplicador = new multiplicador_1.default();
-                console.log(` O resultado da operação é: ${multiplicador.calcular(numero1, numero2)}`);
+                console.log(`Resultado: ${multiplicador.calcular(numeros[0], numeros[1])}`);
                 break;
-            case "Divisão":
+            case "divisao":
+                if (numeros.length < 2)
+                    return console.log("Informe pelo menos dois números para divisão.");
                 let divisor = new divisor_1.default();
-                console.log(` O resultado da operação é: ${divisor.calcular(numero1, numero2)}`);
+                console.log(`Resultado: ${divisor.calcular(numeros[0], numeros[1])}`);
                 break;
-            case "Sair":
+            case "bhaskara":
+                if (numeros.length < 3) {
+                    console.log("Para Bhaskara, informe três números: a b c");
+                }
+                else {
+                    try {
+                        let bhaskara = new bhaskara_1.default();
+                        const resultado = bhaskara.calcular(...numeros);
+                        console.log(`Raízes da equação: ${resultado}`);
+                    }
+                    catch (err) {
+                        console.log(`Erro: ${err.message}`);
+                    }
+                }
+                break;
+            case "sair":
+                console.log("Encerrando o programa...");
                 leitor.close();
-                break;
+                return;
+            default:
+                console.log("Operação inválida. Tente novamente.");
         }
+        leitor.close();
     });
 };
 iniciar();

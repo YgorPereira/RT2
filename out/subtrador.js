@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const calculo_1 = __importDefault(require("./calculo"));
-class subtrator extends calculo_1.default {
+class Subtrador extends calculo_1.default {
     calcular(numero1, numero2) {
         return numero1 - numero2;
     }
 }
-exports.default = subtrator;
+exports.default = Subtrador;
